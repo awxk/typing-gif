@@ -14,7 +14,7 @@ text_color = (255, 255, 255)  # white text
 outline_color = (24, 28, 44)  # character outline color (#181c2c)
 font_path = os.path.join(os.path.dirname(__file__), 'consola.ttf')
 font_size = 24  # font size
-text = 'class Person {\n  name: string;\n  favoriteAnime: string;\n  \n  constructor(name = "Nic", favoriteAnime = "Code Geass") {\n    this.name = name;\n    this.favoriteAnime = favoriteAnime;\n  }\n  \n  greet() {\n    console.log(`Hello, my name is ${this.name} and my favorite anime is ${this.favoriteAnime}.`);\n  }\n}\n\nconst name = prompt("What is your name?");\nconst favoriteAnime = prompt("What is your favorite anime?");\nconst person = new Person(name || undefined, favoriteAnime || undefined);\nperson.greet();\nconsole.log("Welcome to my AniList profile. Feel free to leave a message!");'
+text = 'class Person {\n    username: string;\n    favoriteAnime: string;\n    constructor(username = "user", favoriteAnime = "Code Geass") {\n        this.username = username;\n        this.favoriteAnime = favoriteAnime;\n    }\n    greet() {\n        console.log(`Hello, my name is ${this.username} \n            and my favorite anime is ${this.favoriteAnime}.`);\n    }\n}\nconst username = prompt("What is your name?");\nconst favoriteAnime = prompt("What is your favorite anime?");\nconst person = new Person(username || undefined, favoriteAnime || undefined);\nperson.greet();\nconsole.log("Welcome to my AniList profile. Feel free to leave a message.");'
 
 # Split the text into lines and characters
 lines = text.split('\n')
@@ -60,4 +60,4 @@ for i in range(50):
 
 # Save the frames as a gif
 frames[0].save('typing.gif', format='GIF', save_all=True,
-               append_images=frames[1:], duration=50, loop=0, transparency=0)
+               append_images=frames[1:], duration=25, loop=0, transparency=0)
