@@ -1,20 +1,31 @@
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-Copyright (c) 2023, Nick Dilday (https://github.com/awxk)
-All rights reserved.
-This source code is licensed under the BSD-style license found in the
-LICENSE file in the root directory of this source tree.
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 from PIL import Image, ImageDraw, ImageFont
-import os
 
 # Define the parameters for the gif
 background_color = (0, 0, 0, 0)  # transparent background
-text_color = (255, 255, 255)  # white text
-outline_color = (24, 28, 44)  # character outline color (#181c2c)
-font_path = os.path.join(os.path.dirname(__file__), 'consola.ttf')
-font_size = 24  # font size
-text = 'class Person {\n    username: string;\n    favoriteAnime: string;\n    constructor(username = "user", favoriteAnime = "Code Geass") {\n        this.username = username;\n        this.favoriteAnime = favoriteAnime;\n    }\n    greet() {\n        console.log(`Hello, my name is ${this.username} \n            and my favorite anime is ${this.favoriteAnime}.`);\n    }\n}\nconst username = prompt("What is your name?");\nconst favoriteAnime = prompt("What is your favorite anime?");\nconst person = new Person(username || undefined, favoriteAnime || undefined);\nperson.greet();\nconsole.log("Welcome to my AniList profile. Feel free to leave a message.");'
+font_path = "consola.ttf"
+font_size = 24
+text_color = "#9FADBD"
+outline_color = "#0B1622"
+padding = 10  # Adjust the padding as needed
+
+text = """
+class Person {
+    username: string;
+    favoriteAnime: string;
+    
+    constructor(username = "user") {
+        this.username = username;
+        this.favoriteAnime = Math.random() < 0.5 ? "Code Geass" : "To Your Eternity";
+    }
+    greet() {
+        console.log(`Hello, my name is ${this.username} and my favorite anime is ${this.favoriteAnime}.`);
+    }
+}
+const username = prompt("What is your name?");
+const person = new Person(username || undefined);
+person.greet();
+console.log("Welcome to my AniList profile. Feel free to leave a message.");
+"""
 
 # Split the text into lines and characters
 lines = text.split('\n')
@@ -23,8 +34,8 @@ characters = [list(line) for line in lines]
 # Calculate the size of the image based on the text
 font = ImageFont.truetype(font_path, font_size)
 line_height = font.getbbox('hg')[3] - font.getbbox('hg')[1]
-image_width = max(font.getsize(line)[0] for line in lines) + 10
-image_height = len(lines) * line_height + 10
+image_width = max(font.getsize(line)[0] for line in lines) + 2 * padding
+image_height = len(lines) * line_height + 2 * padding
 
 # Create the frames of the gif
 frames = []
@@ -39,13 +50,13 @@ for line_index, line in enumerate(lines):
     for character_index in range(len(line)):
         current_line = ''.join(characters[line_index][:character_index+1])
         current_text_size = font.getsize(current_line)
-        draw.text((5, line_index * line_height + 5), current_line, font=font,
+        draw.text((padding, padding + line_index * line_height), current_line, font=font,
                   fill=text_color, stroke_width=1, stroke_fill=outline_color)
 
         # Draw the previously printed lines in this frame
         for printed_line_index, printed_line_text in printed_lines:
             printed_line = ''.join(printed_line_text)
-            draw.text((5, printed_line_index * line_height + 5), printed_line,
+            draw.text((padding, padding + printed_line_index * line_height), printed_line,
                       font=font, fill=text_color, stroke_width=1, stroke_fill=outline_color)
 
         # Add the image to the frames list
